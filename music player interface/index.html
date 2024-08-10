@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound world</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <main class="music-player">
+        <div class="animation-container">
+              <div id="pulse-circle"></div>
+        </div>
+        <header class="track-info">
+            <img src="/assets/download (5).jpeg" alt="Album Art" class="album-art">
+            <div class="track-details">
+                <h2 id="track-title">Song Title</h2>
+                <p id="track-artist">Artist Name</p>
+            </div>
+        </header>
+    
+        <section class="controls">
+            <button id="prev" class="control-btn" aria-label="Previous track">⏮️</button>
+            <button id="play-pause" class="control-btn" aria-label="Play or Pause">▶️</button>
+            <button id="next" class="control-btn" aria-label="Next track">⏭️</button>
+        </section>
+    
+        <section class="seek-bar">
+            <input type="range" id="seek-slider" value="0" max="100" aria-label="Seek bar">
+            <div class="time">
+                <span id="current-time">0:00</span> / <span id="duration">3:45</span>
+            </div>
+        </section>
+    
+        <footer class="volume-control">
+            <label for="volume-slider">🔊 Volume</label>
+            <input type="range" id="volume-slider" min="0" max="100" value="50" aria-label="Volume control">
+        </footer>
+        <audio id="audio-player">
+            <source src="/music/Alphaville - Forever Young (Lyrics).mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="audio-player1">
+            <source src="/music/Madi Diaz - Ashes - Phantom [audio].mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </main>
+    <script>
+        // script.js
+
+            const tracks = [
+                {
+                    title: "Forever Young",
+                    artist: "Alphaville",
+                    element: document.getElementById('audio-player'),
+                    duration: "3:47"
+                },
+                {
+                    title: "Ashes",
+                    artist: "Madi diaz",
+                    element: document.getElementById('audio-player1'),
+                    duration: "4:00",
+                    
+
+                },
+                // {
+                //     title: "Final Track",
+                //     artist: "Final Artist",
+                //     element: document.getElementById('audio3'),
+                //     duration: "2:45"
+                // }
+            ];
+
+            let currentTrackIndex = 0;
+            let isPlaying = false;
+
+            const playPauseBtn = document.getElementById("play-pause");
+            const seekSlider = document.getElementById("seek-slider");
+            const currentTime = document.getElementById("current-time");
+            const duration = document.getElementById("duration");
+            const trackTitle = document.getElementById("track-title");
+            const trackArtist = document.getElementById("track-artist");
+            const pulseCircle = document.getElementById("pulse-circle");
+            const volumeSlider = document.getElementById("volume-slider");
+
+            function loadTrack(index) {
+                const track = tracks[index];
+
+                // Update UI with the current track's information
+                trackTitle.textContent = track.title;
+                trackArtist.textContent = track.artist;
+                duration.textContent = track.duration;
+
+                // Reset the player for the new track
+                playPauseBtn.textContent = "▶️";
+                seekSlider.value = 0;
+                currentTime.textContent = "0:00";
+                isPlaying = false;
+
+                // Pause all tracks
+                tracks.forEach(t => t.element.pause());
+
+                // Load and prepare the selected track
+                track.element.currentTime = 0;
+                pulseCircle.classList.add("paused");
+            }
+
+            function playPauseTrack() {
+                const track = tracks[currentTrackIndex];
+                if (isPlaying) {
+                    track.element.pause();
+                    playPauseBtn.textContent = "▶️";
+                    pulseCircle.classList.add("paused");
+                } else {
+                    track.element.play();
+                    playPauseBtn.textContent = "⏸️";
+                    pulseCircle.classList.remove("paused");
+                }
+                isPlaying = !isPlaying;
+            }
+
+            function updateSeekBar() {
+                const track = tracks[currentTrackIndex];
+                seekSlider.value = (track.element.currentTime / track.element.duration) * 100;
+                currentTime.textContent = formatTime(track.element.currentTime);
+            }
+
+            function formatTime(seconds) {
+                let minutes = Math.floor(seconds / 60);
+                seconds = Math.floor(seconds % 60);
+                return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            }
+
+
+            function seekTrack() {
+                const seekTo = audio.duration * (seekSlider.value / 100);
+                audio.currentTime = seekTo;
+            }
+
+            function changeVolume() {
+                const track = tracks[currentTrackIndex];
+                track.element.volume = volumeSlider.value / 100;
+            }
+
+            function nextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+                loadTrack(currentTrackIndex);
+                playPauseTrack(); // Automatically start playing the next track
+            }
+
+            function prevTrack() {
+                currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+                loadTrack(currentTrackIndex);
+                playPauseTrack(); // Automatically start playing the previous track
+            }
+
+            // Event Listeners
+            playPauseBtn.addEventListener("click", playPauseTrack);
+            tracks.forEach(track => track.element.addEventListener('timeupdate', updateSeekBar));
+            seekSlider.addEventListener("input", seekTrack);
+            volumeSlider.addEventListener("input", changeVolume);
+
+            document.getElementById('next').addEventListener('click', nextTrack);
+            document.getElementById('prev').addEventListener('click', prevTrack);
+
+            // Initial load
+            loadTrack(currentTrackIndex);
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,125 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.music-player {
+    background-color: #2c2c2c;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.album-art {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.track-details {
+    margin-top: 10px;
+}
+
+.track-details h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.track-details p {
+    margin: 5px 0 15px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.controls {
+    margin: 10px 0;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.seek-bar {
+    margin: 15px 0;
+}
+
+#seek-slider {
+    width: 100%;
+}
+
+.time {
+    font-size: 12px;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#volume-slider {
+    margin-left: 10px;
+    width: 100px;
+}
+
+.animation-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* 
+#pulse-circle{
+    width: 100px;
+    height: 100px;
+    background-color: #ff6f61;
+    animation: pulse 2s infinite;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+
+
+
+/* @keyframes pulse {
+    0%{
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+
+    50%{
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100%{
+        transform: scale(0.8);
+        opacity: 0.7;
+    }
+} */
+
+
+/* #pulse-circle.paused{
+    animation-play-state: paused;
+    opacity: 0;
+} */ 
